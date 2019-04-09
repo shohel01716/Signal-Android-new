@@ -74,6 +74,7 @@ public class TextSecurePreferences {
   private static final String VERIFYING_STATE_PREF             = "pref_verifying";
   public  static final String REGISTERED_GCM_PREF              = "pref_gcm_registered";
   private static final String GCM_PASSWORD_PREF                = "pref_gcm_password";
+  private static final String SEEN_WELCOME_SCREEN_PREF         = "pref_seen_welcome_screen";
   private static final String PROMPTED_PUSH_REGISTRATION_PREF  = "pref_prompted_push_registration";
   private static final String PROMPTED_DEFAULT_SMS_PREF        = "pref_prompted_default_sms";
   private static final String PROMPTED_OPTIMIZE_DOZE_PREF      = "pref_prompted_optimize_doze";
@@ -175,6 +176,8 @@ public class TextSecurePreferences {
   public static final String TYPING_INDICATORS = "pref_typing_indicators";
 
   public static final String LINK_PREVIEWS = "pref_link_previews";
+
+  private static final String GIF_GRID_LAYOUT = "pref_gif_grid_layout";
 
   public static boolean isScreenLockEnabled(@NonNull Context context) {
     return getBooleanPreference(context, SCREEN_LOCK, false);
@@ -361,6 +364,14 @@ public class TextSecurePreferences {
     return getBooleanPreference(context, LINK_PREVIEWS, true);
   }
 
+  public static boolean isGifSearchInGridLayout(Context context) {
+    return getBooleanPreference(context, GIF_GRID_LAYOUT, false);
+  }
+
+  public static void setIsGifSearchInGridLayout(Context context, boolean isGrid) {
+    setBooleanPreference(context, GIF_GRID_LAYOUT, isGrid);
+  }
+
   public static @Nullable String getProfileKey(Context context) {
     return getStringPreference(context, PROFILE_KEY_PREF, null);
   }
@@ -519,11 +530,7 @@ public class TextSecurePreferences {
   }
 
   public static boolean isSmsEnabled(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      return Util.isDefaultSmsProvider(context);
-    } else {
-      return isInterceptAllSmsEnabled(context);
-    }
+    return Util.isDefaultSmsProvider(context);
   }
 
   public static int getLocalRegistrationId(Context context) {
@@ -840,6 +847,14 @@ public class TextSecurePreferences {
 
   public static boolean isSmsDeliveryReportsEnabled(Context context) {
     return getBooleanPreference(context, SMS_DELIVERY_REPORT_PREF, false);
+  }
+
+  public static boolean hasSeenWelcomeScreen(Context context) {
+    return getBooleanPreference(context, SEEN_WELCOME_SCREEN_PREF, true);
+  }
+
+  public static void setHasSeenWelcomeScreen(Context context, boolean value) {
+    setBooleanPreference(context, SEEN_WELCOME_SCREEN_PREF, value);
   }
 
   public static boolean hasPromptedPushRegistration(Context context) {

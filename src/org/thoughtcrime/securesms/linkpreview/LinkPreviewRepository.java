@@ -8,7 +8,6 @@ import android.text.Html;
 import android.text.TextUtils;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy;
 import com.bumptech.glide.request.FutureTarget;
 
 import org.thoughtcrime.securesms.attachments.Attachment;
@@ -21,7 +20,7 @@ import org.thoughtcrime.securesms.net.CallRequestController;
 import org.thoughtcrime.securesms.net.CompositeRequestController;
 import org.thoughtcrime.securesms.net.ContentProxySelector;
 import org.thoughtcrime.securesms.net.RequestController;
-import org.thoughtcrime.securesms.providers.MemoryBlobProvider;
+import org.thoughtcrime.securesms.providers.BlobProvider;
 import org.thoughtcrime.securesms.util.MediaUtil;
 import org.thoughtcrime.securesms.util.concurrent.SignalExecutors;
 import org.whispersystems.libsignal.util.guava.Optional;
@@ -132,7 +131,7 @@ public class LinkPreviewRepository {
                                                               .load(new ChunkedImageUrl(imageUrl))
                                                               .skipMemoryCache(true)
                                                               .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                                              .downsample(DownsampleStrategy.AT_MOST)
+                                                              .centerInside()
                                                               .submit(1024, 1024);
 
     RequestController controller = () -> bitmapFuture.cancel(false);
@@ -145,7 +144,7 @@ public class LinkPreviewRepository {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
         byte[]               bytes     = baos.toByteArray();
-        Uri                  uri       = MemoryBlobProvider.getInstance().createUri(bytes);
+        Uri                  uri       = BlobProvider.getInstance().forData(bytes).createForSingleSessionInMemory();
         Optional<Attachment> thumbnail = Optional.of(new UriAttachment(uri,
                                                                        uri,
                                                                        MediaUtil.IMAGE_JPEG,

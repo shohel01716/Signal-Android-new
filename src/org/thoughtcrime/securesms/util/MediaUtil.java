@@ -26,8 +26,8 @@ import org.thoughtcrime.securesms.mms.ImageSlide;
 import org.thoughtcrime.securesms.mms.MmsSlide;
 import org.thoughtcrime.securesms.mms.PartAuthority;
 import org.thoughtcrime.securesms.mms.Slide;
+import org.thoughtcrime.securesms.mms.TextSlide;
 import org.thoughtcrime.securesms.mms.VideoSlide;
-import org.thoughtcrime.securesms.providers.PersistentBlobProvider;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,6 +45,7 @@ public class MediaUtil {
   public static final String AUDIO_UNSPECIFIED = "audio/*";
   public static final String VIDEO_UNSPECIFIED = "video/*";
   public static final String VCARD             = "text/x-vcard";
+  public static final String LONG_TEXT         = "text/x-signal-plain";
 
 
   public static Slide getSlideForAttachment(Context context, Attachment attachment) {
@@ -59,6 +60,8 @@ public class MediaUtil {
       slide = new AudioSlide(context, attachment);
     } else if (isMms(attachment.getContentType())) {
       slide = new MmsSlide(context, attachment);
+    } else if (isLongTextType(attachment.getContentType())) {
+      slide = new TextSlide(context, attachment);
     } else if (attachment.getContentType() != null) {
       slide = new DocumentSlide(context, attachment);
     }
@@ -228,6 +231,10 @@ public class MediaUtil {
 
   public static boolean isVideoType(String contentType) {
     return (null != contentType) && contentType.startsWith("video/");
+  }
+
+  public static boolean isLongTextType(String contentType) {
+    return (null != contentType) && contentType.equals(LONG_TEXT);
   }
 
   public static boolean hasVideoThumbnail(Uri uri) {
