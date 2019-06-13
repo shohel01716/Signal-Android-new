@@ -26,6 +26,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.security.ProviderInstaller;
 
 import org.conscrypt.Conscrypt;
@@ -108,6 +110,15 @@ public class ApplicationContext extends MultiDexApplication implements Dependenc
   public void onCreate() {
     super.onCreate();
     Log.i(TAG, "onCreate()");
+
+    if (AudienceNetworkAds.isInAdsProcess(this)) {
+      return;
+    } // else execute default application initialization code
+
+    //DebugSettings.initialize(this);
+
+    AudienceNetworkInitializeHelper.initialize(this);
+
     initializeSecurityProvider();
     initializeLogging();
     initializeCrashHandling();

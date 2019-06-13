@@ -52,6 +52,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.ads.AdSettings;
+import com.facebook.ads.AudienceNetworkAds;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -89,6 +92,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import static com.facebook.ads.AdSettings.IntegrationErrorMode.INTEGRATION_ERROR_CRASH_DEBUG_MODE;
+
 
 public class ConversationListFragment extends Fragment
   implements LoaderManager.LoaderCallbacks<Cursor>, ActionMode.Callback, ItemClickListener
@@ -125,6 +130,13 @@ public class ConversationListFragment extends Fragment
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
     final View view = inflater.inflate(R.layout.conversation_list_fragment, container, false);
+
+    // Initialize the Audience Network SDK
+    AudienceNetworkAds.initialize(getActivity());
+    AudienceNetworkAds.isInAdsProcess(getActivity());
+    // Example for setting the SDK to crash when in debug mode
+    AdSettings.setIntegrationErrorMode(INTEGRATION_ERROR_CRASH_DEBUG_MODE);
+    AudienceNetworkInitializeHelper.initialize(getActivity());
 
     reminderView = ViewUtil.findById(view, R.id.reminder);
     list         = ViewUtil.findById(view, R.id.list);
