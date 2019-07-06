@@ -49,7 +49,7 @@ class ConversationListAdapter extends CursorRecyclerViewAdapter<ConversationList
   private static final int MESSAGE_TYPE_SWITCH_ARCHIVE = 1;
   private static final int MESSAGE_TYPE_THREAD = 2;
   private static final int MESSAGE_TYPE_INBOX_ZERO = 3;
-  private static final int FB_AD = 4;
+  private static final int FB_AD = 7;
 
   private final @NonNull
   ThreadDatabase threadDatabase;
@@ -165,7 +165,7 @@ class ConversationListAdapter extends CursorRecyclerViewAdapter<ConversationList
     } else if (threadRecord.getDistributionType() == ThreadDatabase.DistributionTypes.INBOX_ZERO) {
       return MESSAGE_TYPE_INBOX_ZERO;
     } else {
-      if (cursor.getPosition() % 4 == 0 && cursor.getPosition() > 3) {
+      if (cursor.getPosition() % 7 == 0 && cursor.getPosition() > 6) {
         return FB_AD;
       } else {
         return MESSAGE_TYPE_THREAD;

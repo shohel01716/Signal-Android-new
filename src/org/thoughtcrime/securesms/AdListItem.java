@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.ads.AdSize;
 import com.facebook.ads.AdView;
+import com.facebook.ads.NativeAd;
 
 import org.thoughtcrime.securesms.database.model.ThreadRecord;
 import org.thoughtcrime.securesms.mms.GlideRequests;
@@ -23,6 +24,7 @@ public class AdListItem extends LinearLayout implements BindableConversationList
   private LinearLayout adLL;
   private Context context;
   private AdView adView;
+  private NativeAd nativeAd;
 
   public AdListItem(Context context) {
     super(context);
@@ -45,7 +47,12 @@ public class AdListItem extends LinearLayout implements BindableConversationList
     super.onFinishInflate();
     this.adLL = ViewUtil.findById(this, R.id.adLL);
     //your ad id
-    adView = new AdView(context, "345447992986192_354527978744860", AdSize.BANNER_HEIGHT_50);
+    //adView = new AdView(context, "345447992986192_354527978744860", AdSize.BANNER_HEIGHT_50);
+    //new native ad
+    adView = new AdView(context, "345447992986192_374995893364735", AdSize.RECTANGLE_HEIGHT_250);
+    //nativeAd = new NativeAd(context, "345447992986192_374995893364735");
+    //test native
+    //adView = new AdView(context, "348173435681554_658648054634089", AdSize.RECTANGLE_HEIGHT_250);
   }
 
   @Override
